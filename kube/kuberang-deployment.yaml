@@ -24,3 +24,5 @@ spec:
             value: 'false'
           - name: PUSH_METRICS
             value: 'true'
+      imagePullSecrets:
+        - name: registrykey
