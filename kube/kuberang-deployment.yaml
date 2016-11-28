@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kuberang-master
+  namespace: smoke-test
+spec:
+  template:
+    metadata:
+      labels:
+        name: kuberang-master
+        service: kuberang
+        role: master
+    spec:
+      serviceAccount: kuberang
+      containers:
+      - name: kuberang
+        image: docker.digital.homeoffice.gov.uk/kuberang:v0.0.1
+        env:
+          - name: INTERVAL
+            value: '300'
+          - name: KUBE_NAMESPACE
+            value: 'smoke-test'
+          - name: DEBUG
+            value: 'false'
+          - name: PUSH_METRICS
+            value: 'true'

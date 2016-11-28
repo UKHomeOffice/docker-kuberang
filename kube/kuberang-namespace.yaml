@@ -1,0 +1,53 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: smoke-test
+  labels:
+    name: smoke-test
+---
+kind: LimitRange
+apiVersion: v1
+metadata:
+  name: limits
+  namespace: smoke-test
+spec:
+  limits:
+  - type: Pod
+    max:
+      cpu: 800m
+      memory: 4Gi
+    min:
+      cpu: 20m
+      memory: 6Mi
+  - type: Container
+    default:
+      cpu: 200m
+      memory: 200Mi
+    defaultRequest:
+      cpu: 100m
+      memory: 200Mi
+    max:
+      cpu: 400m
+      memory: 4Gi
+    min:
+      cpu: 10m
+      memory: 3Mi
+---
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: quota
+  namespace: smoke-test
+  labels:
+    size: small
+spec:
+  hard:
+    cpu: "4"
+    memory: 8Gi
+    persistentvolumeclaims: "10"
+    pods: "32"
+    replicationcontrollers: "32"
+    resourcequotas: "1"
+    secrets: "100"
+    services: "8"
