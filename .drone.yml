@@ -5,8 +5,6 @@ pipeline:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
       - docker build -t kuberang .
-    when:
-      event: tag
 
   image_to_artifactory:
     image: docker:1.11
