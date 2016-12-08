@@ -22,14 +22,14 @@ spec:
       memory: 6Mi
   - type: Container
     default:
-      cpu: 200m
-      memory: 200Mi
+      cpu: 100m
+      memory: 100Mi
     defaultRequest:
       cpu: 100m
-      memory: 200Mi
+      memory: 100Mi
     max:
-      cpu: 400m
-      memory: 4Gi
+      cpu: 200m
+      memory: 200Mi
     min:
       cpu: 10m
       memory: 3Mi
@@ -43,7 +43,7 @@ metadata:
     size: small
 spec:
   hard:
-    cpu: "4"
+    cpu: "5"
     memory: 8Gi
     persistentvolumeclaims: "10"
     pods: "100"
