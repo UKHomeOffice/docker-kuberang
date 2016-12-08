@@ -10,6 +10,12 @@ Entrypoint to the container is a bash script which executes Kuberang in a loop w
 You need to make sure that your kubernetes cluster supports service accounts and 
 that `kuberang` service account has sufficient permissions to create objects in `smoke-test` namespace as well as listing cluster nodes.
 
+### Build
+
+```
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=<version>" -o bin/smoketest
+```
+
 ### Configuration
 
 * `KUBE_NAMESPACE` - defaults to `smoke-test`.
@@ -40,6 +46,8 @@ Ensure that `kuberang` service account has necessary permissions to `smoke-test`
 ```
 
 #### Create Kuberang deployment
+
+Ensure (docker-registry) `registrykey` secret is set, otherwise kuberang won't be able to pull an image from Artifactory!
 
 ```
 kubectl create -f kube/kuberang-deployment.yaml
