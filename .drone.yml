@@ -1,4 +1,19 @@
+workspace:
+  base: /go
+  path: src/github.com/UKHomeOffice/docker-kuberang
+
 pipeline:
+  build_smoketest:
+    image: golang:1.7.3
+    environment:
+      - CGO_ENABLED=0
+      - GOOS=linux 
+      - GOARCH=amd64
+    commands:
+      - curl -L https://github.com/Masterminds/glide/releases/download/v0.12.3/glide-v0.12.3-linux-amd64.tar.gz -o - | tar -xzf -
+      - linux-amd64/glide install
+      - go build -ldflags "-X main.Version=${DRONE_COMMIT}" -o bin/smoketest
+
   build_docker_image:
     image: docker:1.11
     environment:
