@@ -11,7 +11,7 @@ RUN curl -s https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL
 # TODO: Pull Kuberang release from github once it's published. 
 #       For the time being use precompiled binary.
 COPY ./bin/kuberang /usr/local/bin/kuberang
-COPY ./bin/smoketest.sh /usr/local/bin/smoketest.sh
+COPY ./bin/smoketest /usr/local/bin/smoketest
 
 USER kuberang
-ENTRYPOINT ["/usr/local/bin/smoketest.sh"]
+ENTRYPOINT ["/usr/local/bin/smoketest"]

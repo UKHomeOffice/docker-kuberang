@@ -14,10 +14,10 @@ spec:
       serviceAccount: kuberang
       containers:
       - name: kuberang
-        image: docker.digital.homeoffice.gov.uk/kuberang:v0.0.1
+        image: docker.digital.homeoffice.gov.uk/kuberang:v0.0.2
         env:
           - name: INTERVAL
-            value: '300'
+            value: '5m'
           - name: KUBE_NAMESPACE
             value: 'smoke-test'
           - name: DEBUG
