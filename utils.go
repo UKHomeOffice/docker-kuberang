@@ -39,7 +39,7 @@ func runCmd(command string, fn ...handler) error {
 func cleanupServices() error {
 	logInfo.Println("Cleanup services")
 
-	err := runCmd("kubectl delete svc --selector=run=kuberang-nginx --namespace " + c.String("namespace"))
+	err := runCmd("kubectl delete svc --selector run=kuberang-nginx --ignore-not-found --namespace " + c.String("namespace"))
 	if err != nil {
 		return err
 	}
