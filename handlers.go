@@ -44,14 +44,6 @@ func kuberangOutputHandler(s *bufio.Scanner) {
 		case rNodeExternalNetwork.MatchString(logLine): nodeExternalNetworkCheck()
 		}
 	}
-
-	if smokeTestError {
-		cleanupServices()
-		cleanupDeployments()
-		smokeTestError = false
-	} else {
-		networkErrorRateCheck()
-	}
 }
 
 func suspectedNodesHandler(s *bufio.Scanner) {

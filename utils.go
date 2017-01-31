@@ -4,14 +4,19 @@ import (
 	"strconv"
 	"os/exec"
 	"bufio"
+	"bytes"
 )
 
 // runCmd executes passed command and pipes output through handler.
 func runCmd(command string, fn ...handler) error {
 	cmd := exec.Command("bash", "-c", command)
+
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+
 	cmdReader, err := cmd.StdoutPipe()
 	if err != nil {
-		logError.Print("Error creating StdoutPipe for Cmd: ", err)
+		logError.Print("Error creating StdoutPipe for Cmd: ", stderr.String())
 		return err
 	}
 
@@ -21,13 +26,13 @@ func runCmd(command string, fn ...handler) error {
 
 	err = cmd.Start()
 	if err != nil {
-		logError.Print("Error starting Cmd: ", err)
+		logError.Print("Error starting Cmd: ", stderr.String())
 		return err
 	}
 
 	err = cmd.Wait()
 	if err != nil {
-		logError.Print("Error waiting for Cmd: ", err)
+		logError.Print("Error waiting for Cmd: ", stderr.String())
 		return err
 	}
 
@@ -76,7 +81,6 @@ func pushMetric(metric string, value int) error {
 func metricValue() int {
 	value := 0
 	if rErrorTest.MatchString(logLine) {
-		smokeTestError = true
 		value = 1
 	}
 	return value

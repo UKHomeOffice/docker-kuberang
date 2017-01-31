@@ -103,10 +103,6 @@ func networkErrorRateCheck() {
 		logDebug.Println("Node to Nginx network error rate: " + strconv.Itoa(nodeErrorRate) + "%")
 	}
 	
-	if (workerErrorRate > errorThreshold || nodeErrorRate > errorThreshold) {
-		smokeTestError = true
-	}
-	
 	pushMetric(sWorkerNetworkErrorRate, workerErrorRate)
 	pushMetric(sNodeNetworkErrorRate, nodeErrorRate)
 	resetCounters()
