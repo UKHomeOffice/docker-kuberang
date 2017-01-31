@@ -26,7 +26,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
-      - docker login -u="regt-build-bot" -p=${DOCKER_ARTIFACTORY_PASSWORD} docker.digital.homeoffice.gov.uk
+      - docker login -u="kuberang-build-bot" -p=${DOCKER_ARTIFACTORY_PASSWORD} docker.digital.homeoffice.gov.uk
       - docker tag kuberang docker.digital.homeoffice.gov.uk/kuberang:${DRONE_TAG}
       - docker push docker.digital.homeoffice.gov.uk/kuberang:${DRONE_TAG}
     when:
