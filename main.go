@@ -17,7 +17,6 @@ var (
 	logDebug *log.Logger
 
 	// Globals
-	smokeTestError = false
 	c *cli.Context // CLI context
 )
 
@@ -78,9 +77,12 @@ func run() error {
 	for {
 		err := runCmd("kuberang --namespace " + c.String("namespace"), kuberangOutputHandler)
 		if err != nil {
-			return err
+			cleanupServices()
+			cleanupDeployments()
+		} else {
+			networkErrorRateCheck()
 		}
-
+		logInfo.Print("-------")
 		time.Sleep(c.Duration("interval"))
 	}
 	return nil
