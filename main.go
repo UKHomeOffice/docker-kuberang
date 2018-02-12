@@ -50,6 +50,12 @@ func main() {
 			EnvVar: "KUBE_NAMESPACE",
 			Value:  "smoke-test",
 		},
+                cli.StringFlag{
+                        Name:   "registry",
+                        Usage:  "kubernetes registry url",
+                        EnvVar: "KUBE_REGISTRY_URL",
+                        Value:  "",
+                },
 		cli.DurationFlag{
 			Name:   "interval",
 			Usage:  "smoke test check interval `INTERVAL`",
@@ -75,13 +81,23 @@ func main() {
 
 func run() error {
 	for {
-		err := runCmd("kuberang --namespace " + c.String("namespace"), kuberangOutputHandler)
-		if err != nil {
-			cleanupServices()
-			cleanupDeployments()
-		} else {
-			networkErrorRateCheck()
-		}
+                if (c.String("registry") == "") {
+		        err := runCmd("kuberang --namespace " + c.String("namespace"), kuberangOutputHandler)
+                        if err != nil {
+                                cleanupServices()
+                                cleanupDeployments()
+                        } else {
+                                networkErrorRateCheck()
+                        }
+                } else {
+                        err := runCmd("kuberang --namespace " + c.String("namespace") + " --registry-url " + c.String("registry"), kuberangOutputHandler)
+		        if err != nil {
+			        cleanupServices()
+			        cleanupDeployments()
+		        } else {
+			        networkErrorRateCheck()
+		        }
+                }
 		logInfo.Print("-------")
 		time.Sleep(c.Duration("interval"))
 	}
