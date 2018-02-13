@@ -50,6 +50,12 @@ func main() {
 			EnvVar: "KUBE_NAMESPACE",
 			Value:  "smoke-test",
 		},
+		cli.StringFlag{
+			Name:   "registry-url, r",
+			Usage:  "smoke test Docker registry override",
+			EnvVar: "REGISTRY_URL",
+			Value:  "https://index.docker.io/v1/",
+		},
 		cli.DurationFlag{
 			Name:   "interval",
 			Usage:  "smoke test check interval `INTERVAL`",
@@ -75,7 +81,7 @@ func main() {
 
 func run() error {
 	for {
-		err := runCmd("kuberang --namespace " + c.String("namespace"), kuberangOutputHandler)
+		err := runCmd("kuberang --namespace " + c.String("namespace") + " --registry-url " + c.String("registry-url"), kuberangOutputHandler)
 		if err != nil {
 			cleanupServices()
 			cleanupDeployments()

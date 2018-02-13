@@ -5,7 +5,7 @@ This repo contains [Kuberang](https://github.com/apprenda/kuberang) wrapper prog
 ## Getting Started
 
 You need to make sure that your kubernetes cluster supports service accounts and 
-that `kuberang` service account has sufficient permissions to create objects in `smoke-test` namespace as well as listing cluster nodes. For details see [README](https://gitlab.digital.homeoffice.gov.uk/Devops/kube-kuberang).
+that `kuberang` service account has sufficient permissions to create objects in `smoke-test` namespace as well as listing cluster nodes. For details see [README](https://gitlab.digital.homeoffice.gov.uk/acp/kube-kuberang).
 
 ### Build
 
@@ -19,10 +19,11 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=<versio
 * `INTERVAL` - defaults to `5m` (5 minutes).
 * `DEBUG` - when set to `true` it'll log details of individual checks.
 * `PUSH_METRICS` - when set to `true` it'll push gauge metrics to Sysdig statsd.
+* `REGISTRY_URL` - defaults to Docker Hub registry url `https://index.docker.io/v1/`.
 
 ### Deployment
 
-To deploy follow instructions in [kube-kuberang](https://gitlab.digital.homeoffice.gov.uk/Devops/kube-kuberang) repo.
+To deploy follow instructions in [kube-kuberang](https://gitlab.digital.homeoffice.gov.uk/acp/kube-kuberang) repo.
 
 ## Contributing
 
