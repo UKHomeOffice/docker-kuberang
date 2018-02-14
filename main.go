@@ -54,7 +54,7 @@ func main() {
 			Name:   "registry-url, r",
 			Usage:  "smoke test Docker registry override",
 			EnvVar: "REGISTRY_URL",
-			Value:  "https://index.docker.io/v1/",
+			Value:  "",
 		},
 		cli.DurationFlag{
 			Name:   "interval",
@@ -81,7 +81,7 @@ func main() {
 
 func run() error {
 	for {
-		err := runCmd("kuberang --namespace " + c.String("namespace") + " --registry-url " + c.String("registry-url"), kuberangOutputHandler)
+		err := runCmd("kuberang --namespace " + c.String("namespace") + " --registry-url '" + c.String("registry-url") + "'", kuberangOutputHandler)
 		if err != nil {
 			cleanupServices()
 			cleanupDeployments()
