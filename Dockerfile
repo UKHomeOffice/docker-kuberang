@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM quay.io/ukhomeofficedigital/alpine-glibc:3.6
 
 RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils
 RUN adduser -h /kuberang -D kuberang
