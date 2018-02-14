@@ -19,7 +19,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=<versio
 * `INTERVAL` - defaults to `5m` (5 minutes).
 * `DEBUG` - when set to `true` it'll log details of individual checks.
 * `PUSH_METRICS` - when set to `true` it'll push gauge metrics to Sysdig statsd.
-* `REGISTRY_URL` - defaults to Docker Hub registry url `https://index.docker.io/v1/`.
+* `REGISTRY_URL` - defaults to `` i.e. uses docker hub registry.
 
 ### Deployment
 
