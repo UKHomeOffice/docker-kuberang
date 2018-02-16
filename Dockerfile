@@ -4,7 +4,7 @@ RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils
 RUN adduser -h /kuberang -D kuberang
 
 ENV KUBECTL_VERSION 1.8.2
-ENV KUBERANG_VERSION 1.2.2
+ENV KUBERANG_VERSION v1.2.2
 
 RUN curl -s https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     -o /usr/bin/kubectl && chmod +x /usr/bin/kubectl
