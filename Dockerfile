@@ -1,9 +1,9 @@
 FROM quay.io/ukhomeofficedigital/alpine-glibc:3.6
 
 RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils
-RUN adduser -h /kuberang -D kuberang
+RUN adduser -h /kuberang -D -u 1000 kuberang
 
-ENV KUBECTL_VERSION 1.8.2
+ENV KUBECTL_VERSION 1.8.4
 ENV KUBERANG_VERSION 1.2.2
 
 RUN curl -s https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
@@ -14,5 +14,5 @@ RUN curl -L -s https://github.com/apprenda/kuberang/releases/download/v${KUBERAN
 
 COPY ./bin/smoketest /usr/local/bin/smoketest
 
-USER kuberang
+USER 1000
 ENTRYPOINT ["/usr/local/bin/smoketest"]
