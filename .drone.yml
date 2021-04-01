@@ -28,17 +28,35 @@ steps:
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - docker build -t kuberang:$${DRONE_COMMIT_SHA} .
+  when:
+    event:
+      exclude:
+      - tag
 
-- name: image_to_artifactory
+- name: scan
   pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-  commands:
-  - docker login -u="kuberang-build-bot" -p=$${DOCKER_ARTIFACTORY_PASSWORD} docker.digital.homeoffice.gov.uk
-  - docker tag kuberang:$${DRONE_COMMIT_SHA} docker.digital.homeoffice.gov.uk/kuberang:$${DRONE_TAG}
-  - docker push docker.digital.homeoffice.gov.uk/kuberang:$${DRONE_TAG}
+  image: quay.io/ukhomeofficedigital/anchore-submission:latest
   environment:
-    DOCKER_ARTIFACTORY_PASSWORD:
-      from_secret: docker_artifactory_password
+    IMAGE_NAME: kuberang:${DRONE_COMMIT_SHA}
+    LOCAL_IMAGE: true
+  when:
+    event:
+      exclude:
+      - tag
+
+- name: image_to_ecr
+  image: plugins/ecr
+  environment:
+    AWS_REGION: eu-west-2
+  settings:
+    access_key:
+      from_secret: aws_access_key_id
+    secret_key:
+      from_secret: aws_secret_access_key
+    repo: acp/kuberang
+    registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
+    tags:
+      - ${DRONE_TAG}
   when:
     event:
     - tag
@@ -46,4 +64,17 @@ steps:
 services:
 - name: docker
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+  when:
+    event:
+      exclude:
+      - tag
+
+- name: anchore-submission-server
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission
+  commands:
+  - /run.sh server
+  when:
+    event:
+      exclude:
+      - tag
 ...
