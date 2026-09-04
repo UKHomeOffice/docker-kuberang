@@ -1,12 +1,12 @@
-FROM quay.io/ukhomeofficedigital/alpine-glibc:3.6
+FROM alpine:3.24
 
-RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils
+RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils gcompat
 RUN adduser -h /kuberang -D -u 1000 kuberang
 
-ENV KUBECTL_VERSION 1.18.17
+ENV KUBECTL_VERSION 1.34.11
 ENV KUBERANG_VERSION 1.4.0
 
-RUN curl -s https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+RUN curl -s https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     -o /usr/bin/kubectl && chmod +x /usr/bin/kubectl
 
 RUN curl -L -s https://github.com/UKHomeOffice/kuberang/releases/download/v${KUBERANG_VERSION}/kuberang-linux-amd64 \
