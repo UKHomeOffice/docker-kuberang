@@ -3,8 +3,8 @@ FROM alpine:3.24
 RUN apk upgrade --no-cache && apk add --no-cache bash curl coreutils gcompat
 RUN adduser -h /kuberang -D -u 1000 kuberang
 
-ENV KUBECTL_VERSION 1.21.14
-ENV KUBERANG_VERSION 1.4.0
+ARG KUBECTL_VERSION=1.21.14
+ARG KUBERANG_VERSION=1.4.0
 
 RUN curl -s https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     -o /usr/bin/kubectl && chmod +x /usr/bin/kubectl
