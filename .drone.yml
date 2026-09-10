@@ -34,11 +34,17 @@ steps:
       - tag
 
 - name: scan
-  pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/anchore-submission:latest
+  pull: always
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/trivy/client:1.0.17
+  resources:
+    limits:
+      cpu: 1000
+      memory: 1024Mi
   environment:
     IMAGE_NAME: kuberang:${DRONE_COMMIT_SHA}
-    LOCAL_IMAGE: true
+    SEVERITY: HIGH,CRITICAL
+    IGNORE_UNFIXED: "true"
+    FAIL_ON_DETECTION: "true"
   when:
     event:
       exclude:
@@ -64,15 +70,6 @@ steps:
 services:
 - name: docker
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-  when:
-    event:
-      exclude:
-      - tag
-
-- name: anchore-submission-server
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission
-  commands:
-  - /run.sh server
   when:
     event:
       exclude:
